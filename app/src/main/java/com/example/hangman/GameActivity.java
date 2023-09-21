@@ -1,6 +1,7 @@
 package com.example.hangman;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,12 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -107,6 +112,27 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
         }
     }
 
+    private void incrementUserWinsAndPoints() {
+        if (currentUser != null) {
+            userRef.update("vittorie", FieldValue.increment(1));
+
+            userRef.update("points", FieldValue.increment(3))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("WIN", "Vittoria incrementata con successo e punti aggiornati!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("WIN", "Errore nell'incremento dei punti", e);
+                        }
+                    });
+        }
+    }
+
+
     private void updateUI(GameState gameState) {
         if (gameState instanceof GameState.Lost) {
             showGameLost(((GameState.Lost) gameState).getWordToGuess());
@@ -117,6 +143,7 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
             imageView.setImageDrawable(ContextCompat.getDrawable(this, runningState.getDrawable()));
         } else if (gameState instanceof GameState.Won) {
             showGameWon(((GameState.Won) gameState).getWordToGuess());
+            incrementUserWinsAndPoints();
         }
     }
 
