@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "456351366179",
+    "project_id": "login-register-hangman-s-app",
+    "storage_bucket": "login-register-hangman-s-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456351366179:android:7087cdeba6125ba5cb8596",
+        "android_client_info": {
+          "package_name": "com.example.hangman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456351366179-emm1gbav8gvgo9afthc6f7j9l3p4fm0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSViGEtu8VBPV-ErHjwgShh7NzBWgOKxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456351366179-emm1gbav8gvgo9afthc6f7j9l3p4fm0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

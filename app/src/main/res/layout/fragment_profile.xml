@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    tools:context=".ProfileFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:text="Impostazioni"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/profile_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="HangMan Admin"
+                    android:textColor="#000000"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hangman.rapisardi@gmail.com"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:layout_gravity="center"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingStart="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_back_dark_blue5_15"
+                    android:text="Edit Profile"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary"
+                    android:paddingEnd="30dp"/>
+
+                <LinearLayout
+                    android:background="@drawable/round_back_dark_blue5_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="40dp"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <!-- Dark Mode / Night Mode-->
+
+                    <!-- Notifications-->
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:id="@+id/notificationIcon"
+                            android:layout_height="40dp"
+                            android:src="@drawable/notification_icon"
+                            android:background="@drawable/round_back_notifications"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_marginStart="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Suoneria"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:layout_toEndOf="@+id/notificationIcon"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:switchMinWidth="50dp"
+                            />
+                    </RelativeLayout>
+
+                    <!-- Private Account-->
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:id="@+id/privateAccountIcon"
+                            android:layout_height="40dp"
+                            android:src="@drawable/privacy_icon"
+                            android:background="@drawable/round_back_private_account"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_marginStart="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Vibrazione"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:layout_toEndOf="@+id/privateAccountIcon"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:switchMinWidth="50dp"
+                           />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/round_back_dark_blue5_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <!-- Security -->
+
+                    <!-- Text Size -->
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:id="@+id/textSizeIcon"
+                            android:layout_height="40dp"
+                            android:src="@drawable/text_size_icon"
+                            android:background="@drawable/round_back_night_mode"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_marginStart="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Text Size"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:layout_toEndOf="@+id/textSizeIcon"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/right_arrow_icon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                    <!-- Languages -->
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:id="@+id/languageIcon"
+                            android:layout_height="40dp"
+                            android:src="@drawable/language_icon"
+                            android:background="@drawable/round_back_notifications"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_marginStart="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Lingua"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:layout_toEndOf="@+id/languageIcon"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/right_arrow_icon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/round_back_dark_blue5_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <!-- Send Us a Messages -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:id="@+id/messageIcon"
+                            android:layout_height="40dp"
+                            android:src="@drawable/message_icon"
+                            android:background="@drawable/round_back_private_account"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_marginStart="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Mandaci un messaggio"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:layout_toEndOf="@+id/messageIcon"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/right_arrow_icon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                    <!-- About Us -->
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:id="@+id/aboutUsIcon"
+                            android:layout_height="40dp"
+                            android:src="@drawable/about_us_icon"
+                            android:background="@drawable/round_back_security"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_marginStart="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="About Us"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:layout_toEndOf="@+id/aboutUsIcon"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/right_arrow_icon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                    <!-- Log Out -->
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:id="@+id/logOutIcon"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:background="@drawable/round_back_security"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_marginStart="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Log Out"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:layout_toEndOf="@+id/logOutIcon"/>
+
+                        <ImageView
+                            android:id="@+id/logout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/right_arrow_icon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                    <!-- FAQs -->
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>
