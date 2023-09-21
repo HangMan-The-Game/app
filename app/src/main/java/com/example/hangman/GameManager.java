@@ -1,5 +1,10 @@
 package com.example.hangman;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Random;
@@ -7,14 +12,27 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+
+
 public class GameManager {
 
     private String lettersUsed = "";
     private String underscoreWord;
     private String wordToGuess;
-    private final int maxTries = 7;
+    private final int maxTries = 6;
     private int currentTries = 0;
     private int drawable = R.drawable.hangman6;
+
+    private long userPoints = 0;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     /*public GameState startNewGame() {
         lettersUsed = "";
@@ -38,6 +56,53 @@ public class GameManager {
         return getGameState();
     } */
 
+    private void getUserPoints(final OnSuccessListener<Long> successListener, final OnFailureListener failureListener) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DocumentReference userRef = db.collection("users").document(uid);
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    Long points = documentSnapshot.getLong("points");
+                    if (points != null) {
+                        successListener.onSuccess(points);
+                    } else {
+                        successListener.onSuccess(0L);
+                    }
+                } else {
+                    successListener.onSuccess(0L);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                failureListener.onFailure(e);
+            }
+        });
+    }
+
+    private void updateUserPoints(long newPoints) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DocumentReference userRef = db.collection("users").document(uid);
+
+        userRef.update("points", newPoints)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("GameManager", "Punti dell'utente aggiornati con successo.");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("GameManager", "Errore nell'aggiornamento dei punti dell'utente.", e);
+                    }
+                });
+    }
+
     public interface OnGameStartListener {
         void onGameStart(GameState gameState);
     }
@@ -50,6 +115,18 @@ public class GameManager {
         Random random = new Random();
         int maxDocumentNumber = 2;
         int randomDocumentNumber = random.nextInt(maxDocumentNumber) + 1;
+
+        getUserPoints(new OnSuccessListener<Long>() {
+            @Override
+            public void onSuccess(Long points) {
+                userPoints = points;
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("GameManager", "Errore nel recupero dei punti dell'utente.", e);
+            }
+        });
 
         GameConstants.loadWordsFromFirestore(randomDocumentNumber, difficulty).addOnSuccessListener(new OnSuccessListener<String>() {
             @Override
@@ -108,11 +185,16 @@ public class GameManager {
 
         if (indexes.isEmpty()) {
             currentTries++;
+            Log.d("Tentativi", String.valueOf(currentTries));
+        } else {
+            userPoints++;
+            updateUserPoints(userPoints);
         }
 
         underscoreWord = finalUnderscoreWord;
         return getGameState();
     }
+
 
     private int getHangmanDrawable() {
         switch (currentTries) {
@@ -129,8 +211,6 @@ public class GameManager {
             case 5:
                 return R.drawable.hangman1;
             case 6:
-                return R.drawable.hangman0;
-            case 7:
                 return R.drawable.hangman0;
             default:
                 return R.drawable.hangman0;

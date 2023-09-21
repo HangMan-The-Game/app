@@ -1,31 +1,44 @@
 package com.example.hangman;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class GameActivity extends AppCompatActivity implements GameManager.OnGameStartListener {
 
     private GameManager gameManager = new GameManager();
-
     private TextView wordTextView;
     private TextView lettersUsedTextView;
     private ImageView imageView;
     private TextView gameLostTextView;
     private TextView gameWonTextView;
+    private AppCompatButton pointsTextView;
     private Button newGameButton;
     private ConstraintLayout lettersLayout;
     String difficulty;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private FirebaseUser currentUser;
+    private DocumentReference userRef;
+    private ListenerRegistration pointsListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +52,31 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
 
         newGameButton = findViewById(R.id.nuovapartita);
         lettersLayout = findViewById(R.id.lettersLayout);
+        pointsTextView = findViewById(R.id.appCompatButton);
 
         difficulty = getIntent().getStringExtra("difficulty");
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        userRef = db.collection("users").document(currentUser.getUid());
+
+        pointsListener = userRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    Long userPoints = snapshot.getLong("points");
+                    if (userPoints != null) {
+                        pointsTextView.setText("Punti: " + userPoints);
+                    }
+                }
+            }
+        });
 
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +113,7 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
         } else if (gameState instanceof GameState.Running) {
             GameState.Running runningState = (GameState.Running) gameState;
             wordTextView.setText(runningState.getUnderscoreWord());
-            lettersUsedTextView.setText("Letters used: " + runningState.getLettersUsed());
+            lettersUsedTextView.setText("Lettere usate: " + runningState.getLettersUsed());
             imageView.setImageDrawable(ContextCompat.getDrawable(this, runningState.getDrawable()));
         } else if (gameState instanceof GameState.Won) {
             showGameWon(((GameState.Won) gameState).getWordToGuess());
@@ -111,5 +147,13 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
     @Override
     public void onGameStart(GameState gameState) {
         updateUI(gameState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (pointsListener != null) {
+            pointsListener.remove();
+        }
     }
 }
