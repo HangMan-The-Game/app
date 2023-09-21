@@ -44,11 +44,12 @@
                     android:src="@drawable/profile_icon"/>
 
                 <TextView
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:text="HangMan Admin"
+                    android:text=""
                     android:textColor="#000000"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
@@ -57,12 +58,12 @@
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hangman.rapisardi@gmail.com"
+                    android:text=""
                     android:textColor="#000000"
                     android:textSize="12sp"
                     android:layout_gravity="center"/>
 
-                <androidx.appcompat.widget.AppCompatButton
+                <!--<androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -72,9 +73,9 @@
                     android:text="Edit Profile"
                     android:textAllCaps="false"
                     android:textColor="@color/primary"
-                    android:paddingEnd="30dp"/>
+                    android:paddingEnd="30dp"/> -->
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:background="@drawable/round_back_dark_blue5_15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,10 +85,8 @@
                     android:orientation="vertical"
                     android:padding="15dp">
 
-                    <!-- Dark Mode / Night Mode-->
 
-                    <!-- Notifications-->
-                    <RelativeLayout
+                     <RelativeLayout
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -119,7 +118,6 @@
                             />
                     </RelativeLayout>
 
-                    <!-- Private Account-->
                     <RelativeLayout
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
@@ -151,7 +149,7 @@
                             android:switchMinWidth="50dp"
                            />
                     </RelativeLayout>
-                </LinearLayout>
+                </LinearLayout>  -->
 
                 <LinearLayout
                     android:background="@drawable/round_back_dark_blue5_15"

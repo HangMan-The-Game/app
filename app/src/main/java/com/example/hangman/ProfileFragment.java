@@ -4,18 +4,26 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +64,7 @@ public class ProfileFragment extends Fragment {
     }
 
     FirebaseAuth auth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,16 +91,51 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    private void getUserEmailAndName(final OnSuccessListener<String> emailListener, final OnSuccessListener<String> nameListener, final OnFailureListener failureListener) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        Log.d("getUserEmailAndName", "Metodo chiamato con UID: " + uid);
+
+        DocumentReference userRef = db.collection("users").document(uid);
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    String email = documentSnapshot.getString("mail");
+                    String name = documentSnapshot.getString("name");
+
+                    if (email != null && name != null) {
+                        emailListener.onSuccess(email);
+                        nameListener.onSuccess(name);
+                        Log.d("EMAIL", email);
+                        Log.d("NAME", name);
+                    } else {
+                        failureListener.onFailure(new Exception("Email o nome mancante"));
+                    }
+                } else {
+                    failureListener.onFailure(new Exception("Documento non trovato"));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                failureListener.onFailure(e);
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        //COME CREARE UN METODO PER APRIRE UNA NUOVQ ACTIVITY CON FRAGMENT
-        View View = inflater.inflate(R.layout.fragment_profile, container, false);
-        Button logoutActivityButton = View.findViewById(R.id.logOutIcon);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        Button logoutActivityButton = view.findViewById(R.id.logOutIcon);
         auth = FirebaseAuth.getInstance();
-        logoutActivityButton   .setOnClickListener(new View.OnClickListener() {
+
+        final TextView emailTextView = view.findViewById(R.id.email);
+        final TextView nameTextView = view.findViewById(R.id.username);
+
+        logoutActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -99,8 +143,18 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        return View;
+
+        getUserEmailAndName(
+                email -> emailTextView.setText(email),
+                name -> nameTextView.setText(name),
+                e -> {
+                    e.printStackTrace();
+                }
+        );
+
+        return view;
     }
+
     /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
