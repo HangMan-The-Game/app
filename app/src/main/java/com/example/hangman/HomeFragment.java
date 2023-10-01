@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
         //COME CREARE UN METODO PER APRIRE UNA NUOVQ ACTIVITY CON FRAGMENT
         View View = inflater.inflate(R.layout.fragment_home, container, false);
         AppCompatButton openActivityButton = View.findViewById(R.id.playButton);
-        AppCompatButton N = View.findViewById(R.id.plbtwhitHangMan);
+        //AppCompatButton N = View.findViewById(R.id.plbtwhitHangMan);
         openActivityButton   .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

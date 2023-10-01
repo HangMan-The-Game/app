@@ -38,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="359dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <!--<androidx.appcompat.widget.AppCompatButton
             android:id="@+id/plbtwhitHangMan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             app:layout_constraintTop_toBottomOf="@id/playButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="359dp" />
+            tools:layout_editor_absoluteY="359dp" /> -->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         />
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -140,9 +140,9 @@
             android:layout_toEndOf="@+id/orTxt"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"/>
-    </RelativeLayout>
+    </RelativeLayout> -->
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/signInWithGoogle"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -167,14 +167,14 @@
             android:text="Accedi con google"
             android:textColor="#E6000000"
             android:textStyle="bold"/>
-    </RelativeLayout>
+    </RelativeLayout> -->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="25dp">
 
         <TextView
             android:layout_width="wrap_content"
