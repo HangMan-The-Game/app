@@ -32,7 +32,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
     public void onBindViewHolder(@NonNull RankingViewHolder holder, int position) {
         Player player = playerList.get(position);
 
-        if (player.getPoints() > 5) {
+        if (player.getPoints() > 4) {
             holder.positionTextView.setText(String.valueOf(position + 1));
             holder.nameTextView.setText(player.getName() + " - " + String.valueOf(player.getPoints()));
             //holder.scoreTextView.setText(String.valueOf(player.getPoints()));
@@ -43,16 +43,16 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
                 int color;
                 switch (position) {
                     case 0:
-                        color = ContextCompat.getColor(context, R.color.gold); // Colore oro per il primo
+                        color = ContextCompat.getColor(context, R.color.gold);
                         break;
                     case 1:
-                        color = ContextCompat.getColor(context, R.color.silver); // Colore argento per il secondo
+                        color = ContextCompat.getColor(context, R.color.silver);
                         break;
                     case 2:
-                        color = ContextCompat.getColor(context, R.color.bronze); // Colore bronzo per il terzo
+                        color = ContextCompat.getColor(context, R.color.bronze);
                         break;
                     default:
-                        color = ContextCompat.getColor(context, R.color.default_color); // Colore predefinito per gli altri
+                        color = ContextCompat.getColor(context, R.color.default_color);
                         break;
                 }
                 holder.itemView.setBackgroundColor(color);
