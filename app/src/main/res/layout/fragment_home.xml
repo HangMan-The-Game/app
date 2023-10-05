@@ -14,23 +14,26 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="100dp"
             app:layout_constraintBottom_toTopOf="@+id/playButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/logon" />
+            app:srcCompat="@drawable/logohome" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/playButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/shape_playbutton"
             android:onClick="startCategorieActivity"
-            android:text="Play"
+            android:text="Gioca"
+            android:textSize="23dp"
+
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/imageView"
