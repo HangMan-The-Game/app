@@ -87,6 +87,41 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void getUserPointsAndWins(final OnSuccessListener<Double> pointsListener, final OnSuccessListener<Integer> winsListener, final OnFailureListener failureListener) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        Log.d("getUserPointsAndWins", "Metodo chiamato con UID: " + uid);
+
+        DocumentReference userRef = db.collection("users").document(uid);
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    Double points = documentSnapshot.getDouble("points");
+                    Integer wins = documentSnapshot.getLong("vittorie").intValue();
+
+                    if (points != null && wins != null) {
+                        pointsListener.onSuccess(points);
+                        winsListener.onSuccess(wins);
+                        Log.d("POINTS", String.valueOf(points));
+                        Log.d("WINS", String.valueOf(wins));
+                    } else {
+                        failureListener.onFailure(new Exception("Punti o vittorie mancanti"));
+                    }
+                } else {
+                    failureListener.onFailure(new Exception("Documento non trovato"));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                failureListener.onFailure(e);
+            }
+        });
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,8 +135,10 @@ public class ProfileFragment extends Fragment {
                 ShowPopup(view); // Chiama il metodo ShowPopup quando il pulsante viene premuto
             }
         });
+
         final TextView emailTextView = view.findViewById(R.id.email);
         final TextView nameTextView = view.findViewById(R.id.username);
+
 
         logoutActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +163,26 @@ public class ProfileFragment extends Fragment {
 
     public void ShowPopup(View view) {
         Dialog myDialog = new Dialog(requireContext());
-        Button btn;
         myDialog.setContentView(R.layout.popup);
-        btn = (Button) myDialog.findViewById(R.id.chiudipopup);
+        Button btn = myDialog.findViewById(R.id.chiudipopup);
+        final TextView puntiTextView = myDialog.findViewById(R.id.npunti);
+        final TextView vittorieTextView = myDialog.findViewById(R.id.nvittorie);
 
+        getUserPointsAndWins(
+                points -> {
+                    if (puntiTextView != null) {
+                        puntiTextView.setText(String.valueOf(points));
+                    }
+                },
+                wins -> {
+                    if (vittorieTextView != null) {
+                        vittorieTextView.setText(String.valueOf(wins));
+                    }
+                },
+                e -> {
+                    e.printStackTrace();
+                }
+        );
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +190,9 @@ public class ProfileFragment extends Fragment {
                 myDialog.dismiss();
             }
         });
+
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
+
 }

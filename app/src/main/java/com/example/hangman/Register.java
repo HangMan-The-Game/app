@@ -3,13 +3,17 @@ package com.example.hangman;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -65,6 +69,21 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+            // Ottieni il colore dalla risorsa di colore dell'applicazione
+            int statusBarColor = ContextCompat.getColor(this, R.color.white);
+            window.setStatusBarColor(statusBarColor);
+
+            View decorView = window.getDecorView();
+            int systemUiVisibilityFlags = decorView.getSystemUiVisibility();
+            systemUiVisibilityFlags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            decorView.setSystemUiVisibility(systemUiVisibilityFlags);
+        }
         mAuth= FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
         email = findViewById(R.id.emailET);

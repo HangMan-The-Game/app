@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="350dp"
-    android:layout_height="400dp"
+    android:layout_height="390dp"
     android:background="@drawable/roundpopup"
     android:padding="5dp"
     android:layout_gravity="center">
@@ -50,7 +50,7 @@
                 android:id="@+id/nvittorie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="N. vitt"
+                android:text="  "
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
         </LinearLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/npunti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="N punti"
+                android:text="  "
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
         </LinearLayout>
