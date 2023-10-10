@@ -2,9 +2,13 @@ package com.example.hangman;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -30,6 +34,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 public class Login extends AppCompatActivity {
 
@@ -76,6 +82,7 @@ public class Login extends AppCompatActivity {
 
         final ImageView passwordIcon = findViewById(R.id.passwordIcon);
         final TextView signUpBtn = findViewById(R.id.signUpBtn);
+        final TextView ReimPass = findViewById(R.id.forgotPasswordBtn);
         Button Login = findViewById(R.id.signInBtn);
 
 
@@ -152,6 +159,13 @@ public class Login extends AppCompatActivity {
          }
         );
 
+        ReimPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowPopup(v);;
+            }
+        });
+
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +194,24 @@ public class Login extends AppCompatActivity {
             passwordET.setError(null);
             return true;
         }
+    }
+
+    public void ShowPopup(View view) {
+        Dialog myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.popup_passoword);
+        AppCompatButton btn = myDialog.findViewById(R.id.chiudi);
+
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 
     public void checkUser(){
