@@ -34,8 +34,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Register extends AppCompatActivity {
+    private static final String TAG = "MyActivity";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -94,7 +96,7 @@ public class Register extends AppCompatActivity {
 
 
        signUpBtn = findViewById(R.id.signUpBtn);
-      signInBtn = findViewById(R.id.signInBtn);
+       signInBtn = findViewById(R.id.signInBtn);
 
         passwordIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,11 +197,33 @@ public class Register extends AppCompatActivity {
                                                     Log.e("Firestore", "Errore durante la registrazione nel database Firestore", e);
                                                 }
                                             });
+
+                                    if (!Objects.requireNonNull(mAuth.getCurrentUser()).isEmailVerified()) {
+                                        mAuth.getCurrentUser().sendEmailVerification()
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(getApplicationContext(),
+                                                                    "Email di verifica inviata " + mAuth.getCurrentUser().getEmail(),
+                                                                    Toast.LENGTH_SHORT).show();
+                                                            Log.d("Verification", "Email di verifica inviata " + mAuth.getCurrentUser().getEmail());
+                                                        } else {
+                                                            Log.e(TAG, "sendEmailVerification", task.getException());
+                                                            Toast.makeText(getApplicationContext(),
+                                                                    "Email di verifica non inviata con successo.",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                    }
                                 } else {
                                     Toast.makeText(Register.this, "La registrazione ha fallito.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
+
             }
         });
 

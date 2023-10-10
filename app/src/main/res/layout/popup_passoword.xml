@@ -20,7 +20,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_height="wrap_content"
-            android:text="Reimposta password:"
+            android:text="Reimposta password"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -32,13 +32,15 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="Inserisci il tuo indirizzo email:"
-        android:textSize="17dp"
+        android:layout_gravity="center"
         android:textColor="@color/black"
-        android:layout_marginTop="5dp"/>
+        android:textSize="17dp" />
 
     <EditText
         android:id="@+id/emailLG"
@@ -80,9 +82,5 @@
             android:text="chiudi"
             android:textColor="@color/primary" />
     </LinearLayout>
-
-</LinearLayout>
-
-
 
 </LinearLayout>

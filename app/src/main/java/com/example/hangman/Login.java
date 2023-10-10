@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -42,8 +43,8 @@ public class Login extends AppCompatActivity {
     private boolean passwordShowing = false;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
-     EditText Email;
-     EditText passwordET;
+    EditText Email;
+    EditText passwordET;
 
     @Override
     public void onStart() {
@@ -75,7 +76,7 @@ public class Login extends AppCompatActivity {
             decorView.setSystemUiVisibility(systemUiVisibilityFlags);
         }
 
-        mAuth= FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
         Email = findViewById(R.id.emailLG);
         passwordET = findViewById(R.id.passwordET);
@@ -118,8 +119,6 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
-
-
 
 
         Login.setOnClickListener(new View.OnClickListener() {
@@ -200,13 +199,34 @@ public class Login extends AppCompatActivity {
         Dialog myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.popup_passoword);
         AppCompatButton btn = myDialog.findViewById(R.id.chiudi);
-
-
-
+        AppCompatButton btnInvio = myDialog.findViewById(R.id.invia);
+        EditText emailFor = (EditText) myDialog.findViewById(R.id.emailLG);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDialog.dismiss();
+            }
+        });
+
+        btnInvio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emailF = emailFor.getText().toString();
+                if (!TextUtils.isEmpty(emailF)) {
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(emailF)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("RipristinaPSW", "Email sent.");
+                                    Toast.makeText(getApplicationContext(), "Email inviata", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Log.e("RipristinaPSW", "Failed to send email.");
+                                    Toast.makeText(getApplicationContext(), "Indirizzo email non esistente", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    myDialog.dismiss();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Inserisci un indirizzo email valido", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

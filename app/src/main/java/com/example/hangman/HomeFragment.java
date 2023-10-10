@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,10 +89,7 @@ public class HomeFragment extends Fragment {
             decorView.setSystemUiVisibility(systemUiVisibilityFlags);
         }
 
-
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,11 +99,26 @@ public class HomeFragment extends Fragment {
         View View = inflater.inflate(R.layout.fragment_home, container, false);
         AppCompatButton openActivityButton = View.findViewById(R.id.playButton);
         //AppCompatButton N = View.findViewById(R.id.plbtwhitHangMan);
-        openActivityButton   .setOnClickListener(new View.OnClickListener() {
+
+        openActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Categorie.class);
-                startActivity(intent);
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    FirebaseAuth.getInstance().getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                if (user.isEmailVerified()) {
+                                    Intent intent = new Intent(getActivity(), Categorie.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getActivity(), "Verifica la tua EMAIL prima di giocare", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
+                }
             }
         });
         return View;
