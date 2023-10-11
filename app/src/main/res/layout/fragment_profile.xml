@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_profile"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
     <LinearLayout
@@ -185,7 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
+                        <Button
                             android:layout_width="40dp"
                             android:id="@+id/textSizeIcon"
                             android:layout_height="40dp"
@@ -198,7 +198,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Text Size"
+                            android:text="Verifica EMAIL"
                             android:textColor="#000000"
                             android:textStyle="bold"
                             android:layout_toEndOf="@+id/textSizeIcon"/>

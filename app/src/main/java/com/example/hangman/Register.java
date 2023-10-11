@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -161,72 +162,86 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
-                mAuth.createUserWithEmailAndPassword(getEmailTxt, getPassword)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                db.collection("users")
+                        .whereEqualTo("name", getNameTxt)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                                    Map<String, Object> utente = new HashMap<>();
-                                    utente.put("mail", getEmailTxt);
-                                    utente.put("name", getNameTxt);
-                                    utente.put("points", points);
-                                    utente.put("role", role);
-                                    utente.put("vittorie", vittorie);
-
-                                    db.collection("users")
-                                            .document(uid)
-                                            .set(utente)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    Toast.makeText(Register.this, "Username già eistente", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                } else {
+                                    mAuth.createUserWithEmailAndPassword(getEmailTxt, getPassword)
+                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                 @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(Register.this, "Registrazione nel database avvenuta con successo", Toast.LENGTH_SHORT).show();
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    progressBar.setVisibility(View.GONE);
+                                                    if (task.isSuccessful()) {
+                                                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                                    Intent intent = new Intent(Register.this, MainActivity.class);
-                                                    intent.putExtra("email", getEmailTxt);
-                                                    intent.putExtra("username", getNameTxt);
-                                                    startActivity(intent);
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(Register.this, "Errore durante la registrazione nel database Firestore", Toast.LENGTH_SHORT).show();
-                                                    Log.e("Firestore", "Errore durante la registrazione nel database Firestore", e);
+                                                        Map<String, Object> utente = new HashMap<>();
+                                                        utente.put("mail", getEmailTxt);
+                                                        utente.put("name", getNameTxt);
+                                                        utente.put("points", points);
+                                                        utente.put("role", role);
+                                                        utente.put("vittorie", vittorie);
+
+                                                        db.collection("users")
+                                                                .document(uid)
+                                                                .set(utente)
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Toast.makeText(Register.this, "Registrazione nel database avvenuta con successo", Toast.LENGTH_SHORT).show();
+
+                                                                        Intent intent = new Intent(Register.this, MainActivity.class);
+                                                                        intent.putExtra("email", getEmailTxt);
+                                                                        intent.putExtra("username", getNameTxt);
+                                                                        startActivity(intent);
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(Register.this, "Errore durante la registrazione nel database Firestore", Toast.LENGTH_SHORT).show();
+                                                                        Log.e("Firestore", "Errore durante la registrazione nel database Firestore", e);
+                                                                    }
+                                                                });
+
+                                                        if (!Objects.requireNonNull(mAuth.getCurrentUser()).isEmailVerified()) {
+                                                            mAuth.getCurrentUser().sendEmailVerification()
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                                                            if (task.isSuccessful()) {
+                                                                                Toast.makeText(getApplicationContext(),
+                                                                                        "Email di verifica inviata " + mAuth.getCurrentUser().getEmail(),
+                                                                                        Toast.LENGTH_SHORT).show();
+                                                                                Log.d("Verification", "Email di verifica inviata " + mAuth.getCurrentUser().getEmail());
+                                                                            } else {
+                                                                                Log.e(TAG, "sendEmailVerification", task.getException());
+                                                                                Toast.makeText(getApplicationContext(),
+                                                                                        "Email di verifica non inviata con successo.",
+                                                                                        Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        }
+                                                                    });
+                                                        }
+                                                    } else {
+                                                        Toast.makeText(Register.this, "La registrazione ha fallito.", Toast.LENGTH_SHORT).show();
+                                                    }
                                                 }
                                             });
-
-                                    if (!Objects.requireNonNull(mAuth.getCurrentUser()).isEmailVerified()) {
-                                        mAuth.getCurrentUser().sendEmailVerification()
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-
-                                                        if (task.isSuccessful()) {
-                                                            Toast.makeText(getApplicationContext(),
-                                                                    "Email di verifica inviata " + mAuth.getCurrentUser().getEmail(),
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            Log.d("Verification", "Email di verifica inviata " + mAuth.getCurrentUser().getEmail());
-                                                        } else {
-                                                            Log.e(TAG, "sendEmailVerification", task.getException());
-                                                            Toast.makeText(getApplicationContext(),
-                                                                    "Email di verifica non inviata con successo.",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                });
-                                    }
-                                } else {
-                                    Toast.makeText(Register.this, "La registrazione ha fallito.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
 
-            }
-        });
 
+
+            }
+            });
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

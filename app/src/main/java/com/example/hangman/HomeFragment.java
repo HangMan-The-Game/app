@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.example.hangman.ProfileFragment;
 
 import java.util.Objects;
 
@@ -113,6 +116,10 @@ public class HomeFragment extends Fragment {
                                     Intent intent = new Intent(getActivity(), Categorie.class);
                                     startActivity(intent);
                                 } else {
+                                   /* FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                    transaction.replace(R.id.fragment_profile, new ProfileFragment());
+                                    transaction.commit(); */
                                     Toast.makeText(getActivity(), "Verifica la tua EMAIL prima di giocare", Toast.LENGTH_SHORT).show();
                                 }
                             }

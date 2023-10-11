@@ -18,12 +18,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -127,6 +133,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Button logoutActivityButton = view.findViewById(R.id.logOutIcon);
+        Button verificamail = view.findViewById(R.id.textSizeIcon);
         auth = FirebaseAuth.getInstance();
         AppCompatButton popupbutton = view.findViewById(R.id.popupbtn);
         popupbutton.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +153,32 @@ public class ProfileFragment extends Fragment {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getActivity(), Login.class);
                 startActivity(intent);
+            }
+        });
+
+        verificamail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified()) {
+                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getActivity(),
+                                                "Email di verifica inviata " + FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                                Toast.LENGTH_SHORT).show();
+                                        Log.d("Verification", "Email di verifica inviata " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                    } else {
+                                        Log.e("Mail", "sendEmailVerification", task.getException());
+                                        Toast.makeText(getActivity(),
+                                                "Email di verifica non inviata con successo.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
             }
         });
 
