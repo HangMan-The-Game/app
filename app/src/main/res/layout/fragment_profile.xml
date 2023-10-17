@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -182,14 +181,15 @@
                     <!-- Text Size -->
                     <RelativeLayout
                         android:layout_marginTop="10dp"
+                        android:id="@+id/Rlemail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <Button
+                        <ImageView
                             android:layout_width="40dp"
                             android:id="@+id/textSizeIcon"
                             android:layout_height="40dp"
-                            android:src="@drawable/text_size_icon"
+                            android:src="@drawable/verificaemailicon"
                             android:background="@drawable/round_back_night_mode"
                             android:padding="12dp"/>
 
@@ -230,7 +230,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Lingua"
+                            android:text="Lingua (Work in progress)"
                             android:textColor="#000000"
                             android:textStyle="bold"
                             android:layout_toEndOf="@+id/languageIcon"/>
@@ -245,6 +245,9 @@
 
                 </LinearLayout>
 
+
+
+
                 <LinearLayout
                     android:background="@drawable/round_back_dark_blue5_15"
                     android:layout_width="match_parent"
@@ -258,6 +261,7 @@
                     <!-- Send Us a Messages -->
                     <RelativeLayout
                         android:layout_width="match_parent"
+                        android:id="@+id/Rlsendus"
                         android:layout_height="wrap_content">
 
                         <ImageView
@@ -290,6 +294,7 @@
                     <RelativeLayout
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
+                        android:id="@+id/Rlaboutus"
                         android:layout_height="wrap_content">
 
                         <ImageView
@@ -321,10 +326,11 @@
                     <!-- Log Out -->
                     <RelativeLayout
                         android:layout_marginTop="10dp"
+                        android:id="@+id/Rllogout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <Button
+                        <ImageView
                             android:layout_width="40dp"
                             android:id="@+id/logOutIcon"
                             android:layout_height="40dp"

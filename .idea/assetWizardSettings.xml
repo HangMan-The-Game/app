@@ -307,7 +307,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialiconsround/play_arrow/round_play_arrow_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialiconsround/mark_email_read/round_mark_email_read_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -317,8 +317,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="play_icon" />
+                            <entry key="outputName" value="ig_icon" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/icons8-instagram.svg" />
                           </map>
                         </option>
                       </PersistentState>

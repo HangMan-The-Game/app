@@ -2,12 +2,16 @@ package com.example.hangman;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
@@ -17,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +30,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
@@ -132,8 +139,9 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        Button logoutActivityButton = view.findViewById(R.id.logOutIcon);
-        Button verificamail = view.findViewById(R.id.textSizeIcon);
+        //AppCompatImageView logoutActivityButton = view.findViewById(R.id.logOutIcon);
+       // AppCompatImageView verificamail = view.findViewById(R.id.textSizeIcon);
+
         auth = FirebaseAuth.getInstance();
         AppCompatButton popupbutton = view.findViewById(R.id.popupbtn);
         popupbutton.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +155,9 @@ public class ProfileFragment extends Fragment {
         final TextView nameTextView = view.findViewById(R.id.username);
 
 
-        logoutActivityButton.setOnClickListener(new View.OnClickListener() {
+
+        RelativeLayout Rlogout = view.findViewById(R.id.Rllogout);
+        Rlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -156,31 +166,59 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        verificamail.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout Rlsendus = view.findViewById(R.id.Rlsendus);
+        RelativeLayout Rlaboutus = view.findViewById(R.id.Rlaboutus);
+
+        Rlaboutus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).isEmailVerified()) {
-                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                // Azioni da eseguire quando il RelativeLayout "About Us" viene cliccato
+                // Ad esempio, puoi aprire il sito web qui
+                openWebsite(v);
+            }
+        });
 
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(getActivity(),
-                                                "Email di verifica inviata " + FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                                Toast.LENGTH_SHORT).show();
-                                        Log.d("Verification", "Email di verifica inviata " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                                    } else {
-                                        Log.e("Mail", "sendEmailVerification", task.getException());
-                                        Toast.makeText(getActivity(),
-                                                "Email di verifica non inviata con successo.",
-                                                Toast.LENGTH_SHORT).show();
+        Rlsendus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Azioni da eseguire quando il RelativeLayout viene cliccato
+                // Ad esempio, puoi aprire il profilo Instagram qui
+                openInstagramProfile(v);
+            }
+        });
+
+
+
+        RelativeLayout rl1 = view.findViewById(R.id.Rlemail);
+
+        rl1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser != null) {
+                    if (!currentUser.isEmailVerified()) {
+                        currentUser.sendEmailVerification()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getActivity(),
+                                                    "Email di verifica inviata " + currentUser.getEmail(),
+                                                    Toast.LENGTH_SHORT).show();
+                                            Log.d("Verification", "Email di verifica inviata " + currentUser.getEmail());
+                                        } else {
+                                            Log.e("Mail", "sendEmailVerification", task.getException());
+                                            Toast.makeText(getActivity(),
+                                                    "Email di verifica non inviata con successo.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    }
                 }
             }
         });
+
 
         getUserEmailAndName(
                 email -> emailTextView.setText(email),
@@ -192,6 +230,10 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
+
+
+
+
 
 
     public void ShowPopup(View view) {
@@ -227,5 +269,46 @@ public class ProfileFragment extends Fragment {
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
+
+    public void openInstagramProfile(View view) {
+        String instagramProfile = "https://www.instagram.com/hangmanit_/"; // Sostituisci "nome_utente" con il nome utente dell'account Instagram a cui desideri reindirizzare l'utente
+        Uri uri = Uri.parse(instagramProfile);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+        // Verifica se esiste un'app per gestire l'intent
+        PackageManager packageManager = requireContext().getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+
+        boolean isIntentSafe = activities.size() > 0;
+
+        if (isIntentSafe) {
+            startActivity(intent); // Apre l'app Instagram o il browser web
+        } else {
+            // Se non è installata l'app Instagram o non c'è un browser web, gestisci il fallback qui
+            Toast.makeText(requireContext(), "Nessuna app Instagram installata.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void openWebsite(View view) {
+        String websiteUrl = "https://hangmangame.it/"; // Sostituisci "tuo-sito-web.com" con l'URL del sito web a cui desideri reindirizzare l'utente
+        Uri uri = Uri.parse(websiteUrl);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+        // Verifica se esiste un'app per gestire l'intent
+        PackageManager packageManager = requireContext().getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+
+        boolean isIntentSafe = activities.size() > 0;
+
+        if (isIntentSafe) {
+            startActivity(intent); // Apre il browser predefinito e naviga al sito web
+        } else {
+            // Gestisci il caso in cui non ci siano app per gestire l'intent (ad esempio, nessun browser web installato)
+            Toast.makeText(requireContext(), "Nessuna app per la navigazione web installata.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 }
