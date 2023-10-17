@@ -32,23 +32,13 @@ tools:context=".GameActivity"    >
         android:id="@+id/back"
         android:layout_width="55dp"
         android:layout_height="43dp"
+        android:onClick="onBackButtonClick"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.003"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/round_arrow_back_24" />
-
-    <ImageView
-        android:id="@+id/settings"
-        android:layout_width="55dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.974"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/round_settings_24" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -65,14 +55,14 @@ tools:context=".GameActivity"    >
         android:layout_height="wrap_content"
         android:text="Hai Perso!"
         android:textColor="#BB4444"
-        android:textSize="36sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/lettersLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nuovapartita"
-        tools:visibility="visible"
+        tools:visibility="gone"
         />
 
 
@@ -82,14 +72,14 @@ tools:context=".GameActivity"    >
         android:layout_height="wrap_content"
         android:text="Hai Vinto!"
         android:textColor="#44BB44"
-        android:textSize="36sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/lettersLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nuovapartita"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/wordTextView"
@@ -142,6 +132,7 @@ tools:context=".GameActivity"    >
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
+        android:layout_marginTop="-85dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nuovapartita">
@@ -204,7 +195,7 @@ tools:context=".GameActivity"    >
             android:id="@+id/e"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/letteragiusta"
+            android:background="@drawable/shapebuttonplay"
             android:paddingHorizontal="7dp"
             android:text="E"
             android:textColor="@color/white"

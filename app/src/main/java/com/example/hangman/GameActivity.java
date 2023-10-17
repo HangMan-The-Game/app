@@ -9,6 +9,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -66,6 +69,18 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
             decorView.setSystemUiVisibility(systemUiVisibilityFlags);
         }
 
+        // Disabilita il tasto "Indietro"
+        OnBackPressedDispatcher onBackPressedDispatcher = getOnBackPressedDispatcher();
+        onBackPressedDispatcher.addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Non fare nulla per impedire il tasto "Indietro"
+            }
+        });
+
+
+
+
         imageView = findViewById(R.id.imageView5);
         wordTextView = findViewById(R.id.wordTextView);
         lettersUsedTextView = findViewById(R.id.lettersUsedTextView);
@@ -106,6 +121,7 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
                 startNewGame();
             }
         });
+
 
 
         //Log.d("DIFFICOLTA: ", difficulty);
@@ -199,5 +215,9 @@ public class GameActivity extends AppCompatActivity implements GameManager.OnGam
         if (pointsListener != null) {
             pointsListener.remove();
         }
+    }
+
+    public void onBackButtonClick(View view) {
+        finish(); // Chiude l'Activity corrente
     }
 }

@@ -113,7 +113,7 @@ public class GameManager {
         drawable = R.drawable.hangman6;
 
         Random random = new Random();
-        int maxDocumentNumber = 2;
+        int maxDocumentNumber = 50;
         int randomDocumentNumber = random.nextInt(maxDocumentNumber) + 1;
 
         getUserPoints(new OnSuccessListener<Long>() {

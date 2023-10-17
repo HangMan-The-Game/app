@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "456351366179",
-    "project_id": "login-register-hangman-s-app",
-    "storage_bucket": "login-register-hangman-s-app.appspot.com"
+    "project_number": "153793519452",
+    "firebase_url": "https://hangmangame-it-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "hangmangame-it",
+    "storage_bucket": "hangmangame-it.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:456351366179:android:7087cdeba6125ba5cb8596",
+        "mobilesdk_app_id": "1:153793519452:android:daf9f7a97c6c16b6b9eb99",
         "android_client_info": {
           "package_name": "com.example.hangman"
         }
       },
       "oauth_client": [
         {
-          "client_id": "456351366179-emm1gbav8gvgo9afthc6f7j9l3p4fm0r.apps.googleusercontent.com",
+          "client_id": "153793519452-u8qvq5aninvlmjcm2h3m1thtogmb135u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDSViGEtu8VBPV-ErHjwgShh7NzBWgOKxI"
+          "current_key": "AIzaSyDO1aZP5cju7CDi6YQThhGvEMqlD-nxyHw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "456351366179-emm1gbav8gvgo9afthc6f7j9l3p4fm0r.apps.googleusercontent.com",
+              "client_id": "153793519452-u8qvq5aninvlmjcm2h3m1thtogmb135u.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
