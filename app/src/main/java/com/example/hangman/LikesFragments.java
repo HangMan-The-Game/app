@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ public class LikesFragments extends Fragment {
     private RecyclerView recyclerView;
     private RankingAdapter adapter;
     private List<Player> playerList;
+    public TextView topOneName, topOneScore, topTwoName, topTwoScore, topThreeName, topThreeScore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +49,13 @@ public class LikesFragments extends Fragment {
             decorView.setSystemUiVisibility(systemUiVisibilityFlags);
         }
 
+        topOneName = view.findViewById(R.id.primoClassifica);
+        topOneScore = view.findViewById(R.id.puntiprimoClassifica);
+        topTwoName = view.findViewById(R.id.secondoClassifica);
+        topTwoScore = view.findViewById(R.id.puntisecondoClassifica);
+        topThreeName = view.findViewById(R.id.terzoClassifica);
+        topThreeScore = view.findViewById(R.id.puntiterzoClassifica);
+
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         playerList = new ArrayList<>();
@@ -57,9 +66,6 @@ public class LikesFragments extends Fragment {
 
         return view;
     }
-
-
-
 
     private void loadPlayerData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -75,6 +81,15 @@ public class LikesFragments extends Fragment {
                             playerList.add(new Player(name, points));
                         }
 
+                        if (!playerList.isEmpty()) {
+                            topOneName.setText(playerList.get(0).getName());
+                            topOneScore.setText(String.valueOf(playerList.get(0).getPoints()));
+                            topTwoName.setText(playerList.get(1).getName());
+                            topTwoScore.setText(String.valueOf(playerList.get(1).getPoints()));
+                            topThreeName.setText(playerList.get(2).getName());
+                            topThreeScore.setText(String.valueOf(playerList.get(2).getPoints()));
+                        }
+
                         Collections.sort(playerList, (player1, player2) -> {
                             long points1 = player1.getPoints();
                             long points2 = player2.getPoints();
@@ -83,7 +98,6 @@ public class LikesFragments extends Fragment {
 
                         adapter.notifyDataSetChanged();
                     } else {
-                        // Gestisci eventuali errori
                     }
                 });
     }

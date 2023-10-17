@@ -6,10 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.text.CollationElementIterator;
+import java.util.Collections;
 import java.util.List;
 
 public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingViewHolder> {
@@ -38,18 +44,20 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
             holder.scoreTextView.setText(String.valueOf(player.getPoints()));
 
             Context context = holder.itemView.getContext();
+
         } else {
             holder.itemView.setVisibility(View.GONE);
         }
     }
 
-
-    /*public void onBindViewHolder(@NonNull RankingViewHolder holder, int position) {
+    /*
+    public void onBindViewHolder(@NonNull RankingViewHolder holder, int position) {
         Player player = playerList.get(position);
 
         holder.nameTextView.setText(String.valueOf(position + 1) + ". " + player.getName() + " - ");
         holder.scoreTextView.setText(String.valueOf(player.getPoints()));
-    }*/
+    }
+    */
 
     @Override
     public int getItemCount() {
@@ -57,6 +65,10 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
     }
 
     public class RankingViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView topOneName, topTwoName, topThreeName;
+        public TextView topOneScore, topTwoScore, topThreeScore;
+
         public TextView positionTextView;
         public TextView nameTextView;
         public TextView scoreTextView;
@@ -69,5 +81,6 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
             scoreTextView = itemView.findViewById(R.id.textScore);
         }
     }
+
 
 }

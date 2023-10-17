@@ -231,11 +231,6 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-
-
-
-
-
     public void ShowPopup(View view) {
         Dialog myDialog = new Dialog(requireContext());
         myDialog.setContentView(R.layout.popup);
@@ -271,41 +266,37 @@ public class ProfileFragment extends Fragment {
     }
 
     public void openInstagramProfile(View view) {
-        String instagramProfile = "https://www.instagram.com/hangmanit_/"; // Sostituisci "nome_utente" con il nome utente dell'account Instagram a cui desideri reindirizzare l'utente
+        String instagramProfile = "https://www.instagram.com/hangmanit_/";
         Uri uri = Uri.parse(instagramProfile);
 
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
-        // Verifica se esiste un'app per gestire l'intent
         PackageManager packageManager = requireContext().getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
 
         boolean isIntentSafe = activities.size() > 0;
 
         if (isIntentSafe) {
-            startActivity(intent); // Apre l'app Instagram o il browser web
+            startActivity(intent);
         } else {
-            // Se non è installata l'app Instagram o non c'è un browser web, gestisci il fallback qui
             Toast.makeText(requireContext(), "Nessuna app Instagram installata.", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void openWebsite(View view) {
-        String websiteUrl = "https://hangmangame.it/"; // Sostituisci "tuo-sito-web.com" con l'URL del sito web a cui desideri reindirizzare l'utente
+        String websiteUrl = "https://hangmangame.it/";
         Uri uri = Uri.parse(websiteUrl);
 
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
-        // Verifica se esiste un'app per gestire l'intent
         PackageManager packageManager = requireContext().getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
 
         boolean isIntentSafe = activities.size() > 0;
 
         if (isIntentSafe) {
-            startActivity(intent); // Apre il browser predefinito e naviga al sito web
+            startActivity(intent);
         } else {
-            // Gestisci il caso in cui non ci siano app per gestire l'intent (ad esempio, nessun browser web installato)
             Toast.makeText(requireContext(), "Nessuna app per la navigazione web installata.", Toast.LENGTH_SHORT).show();
         }
     }
